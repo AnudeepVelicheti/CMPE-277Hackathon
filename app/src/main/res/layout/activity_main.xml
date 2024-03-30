@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E4A8A8"
+    android:background="#FBEDC2"
     android:padding="16dp"
     tools:context=".MainActivity">
 
@@ -37,6 +37,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Researcher"
+        android:textSize="17sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/imgResearcher"
         app:layout_constraintStart_toStartOf="@+id/imgResearcher"
         app:layout_constraintTop_toBottomOf="@+id/imgResearcher" />
@@ -56,6 +58,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Government Official"
+        android:textSize="17sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/imgGovernmentOfficial"
         app:layout_constraintStart_toStartOf="@+id/imgGovernmentOfficial"
         app:layout_constraintTop_toBottomOf="@+id/imgGovernmentOfficial" />
@@ -64,7 +68,7 @@
         android:id="@+id/btnMacroEconomy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="#400C42"
+        android:backgroundTint="#EC4510"
         android:drawableLeft="@drawable/ic_money"
         android:drawableTint="@color/white"
         android:text="Macro Economy"
@@ -76,7 +80,7 @@
         android:id="@+id/btnAgriculture"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="#400C42"
+        android:backgroundTint="#07980C"
         android:drawableLeft="@drawable/ic_agriculture"
         android:drawableTint="@color/white"
         android:text="Agriculture"
@@ -88,7 +92,7 @@
         android:id="@+id/btnDebit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="#400C42"
+        android:backgroundTint="#2E4BE8"
         android:drawableLeft="@drawable/ic_debit"
         android:drawableTint="@color/white"
         android:text="Trade"

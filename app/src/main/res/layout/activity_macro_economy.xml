@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E4A8A8"
-    android:backgroundTint="#E4A8A8"
+    android:background="#FBEDC2"
+    android:backgroundTint="#FBEDC2"
     tools:context=".MainActivity">
 
     <Spinner
