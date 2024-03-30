@@ -3,6 +3,7 @@ package com.example.hackathonmacroeconomics;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -57,6 +58,7 @@ public class MacroEconomy extends AppCompatActivity implements AdapterView.OnIte
         indiaCheckBox = findViewById(R.id.india_checkbox);
         chinaCheckBox = findViewById(R.id.china_checkbox);
         usaCheckBox = findViewById(R.id.usa_checkbox);
+
 
         try {
             InputStream inputStream = getResources().openRawResource(R.raw.gdp_growth);
@@ -133,7 +135,7 @@ public class MacroEconomy extends AppCompatActivity implements AdapterView.OnIte
         List<String> years = new ArrayList<>();
         for (
                 int i = 1960;
-                i <= 2023; i++) {
+                i <= 2021; i++) {
             years.add(String.valueOf(i));
         }
 
@@ -144,7 +146,7 @@ public class MacroEconomy extends AppCompatActivity implements AdapterView.OnIte
 
         // Set default spinner selections
         yearStartSpinner.setSelection(years.indexOf("1960"));
-        yearEndSpinner.setSelection(years.indexOf("2023"));
+        yearEndSpinner.setSelection(years.indexOf("2021"));
 
         // Display initial graph
         updateGraph();
@@ -186,6 +188,9 @@ public class MacroEconomy extends AppCompatActivity implements AdapterView.OnIte
         }
         double minValue = Double.MAX_VALUE;
         double maxValue = Double.MIN_VALUE;
+        int indiaColor = Color.RED;
+        int chinaColor = Color.GREEN;
+        int usaColor = Color.BLUE;
 
         for (String country : selectedCountries) {
             // Create graph series
@@ -215,6 +220,13 @@ public class MacroEconomy extends AppCompatActivity implements AdapterView.OnIte
                     maxValue = data;
                 }
                 series.appendData(new DataPoint(year, data), true, maxDataPoints);
+            }
+            if (country.equals(Constants.INDIA)) {
+                series.setColor(indiaColor);
+            } else if (country.equals(Constants.CHINA)) {
+                series.setColor(chinaColor);
+            } else if (country.equals(Constants.USA)) {
+                series.setColor(usaColor);
             }
             // Set graph properties for each country
             series.setTitle(country);
