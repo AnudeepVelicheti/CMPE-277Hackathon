@@ -133,7 +133,7 @@ public class MacroEconomy extends AppCompatActivity implements AdapterView.OnIte
         List<String> years = new ArrayList<>();
         for (
                 int i = 1960;
-                i <= 2021; i++) {
+                i <= 2023; i++) {
             years.add(String.valueOf(i));
         }
 
@@ -144,7 +144,7 @@ public class MacroEconomy extends AppCompatActivity implements AdapterView.OnIte
 
         // Set default spinner selections
         yearStartSpinner.setSelection(years.indexOf("1960"));
-        yearEndSpinner.setSelection(years.indexOf("2021"));
+        yearEndSpinner.setSelection(years.indexOf("2023"));
 
         // Display initial graph
         updateGraph();

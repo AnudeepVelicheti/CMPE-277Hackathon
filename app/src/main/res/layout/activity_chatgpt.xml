@@ -7,40 +7,38 @@
     android:background="#FBEDC2"
     tools:context=".MainActivity">
 
-    <EditText
-        android:id="@+id/userInput"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="#EFEFEF"
-        android:hint="Type here..."
-        android:textColor="#2D2D2D" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chatRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/layout_input"
+        android:layout_marginBottom="8dp"/>
 
-    <Button
-        android:id="@+id/sendButton"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/layout_input"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/userInput"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp"
-        android:backgroundTint="#400C42"
-        android:text="Send" />
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:padding="4dp">
 
-    <TextView
-        android:id="@+id/chatGPTResponse"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/sendButton"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="#EFEFEF"
-        android:hint="Response..."
-        android:padding="16dp"
-        android:textColor="#121212" />
+        <EditText
+            android:id="@+id/userInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#EFEFEF"
+            android:hint="Type here..."
+            android:padding="8dp"
+            android:textColor="#2D2D2D" />
+
+        <Button
+            android:id="@+id/sendButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#400C42"
+            android:text="Send" />
+
+    </LinearLayout>
 
 </RelativeLayout>

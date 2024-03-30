@@ -133,7 +133,7 @@ public class Agriculture extends AppCompatActivity implements AdapterView.OnItem
 
         // Populate year spinners
         List<String> years = new ArrayList<>();
-        for (int i = 1960; i <= 2021; i++) {
+        for (int i = 1960; i <= 2023; i++) {
             years.add(String.valueOf(i));
         }
         ArrayAdapter yearAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, years);
@@ -143,7 +143,7 @@ public class Agriculture extends AppCompatActivity implements AdapterView.OnItem
 
         // Set default spinner selections
         yearStartSpinner.setSelection(years.indexOf("1960"));
-        yearEndSpinner.setSelection(years.indexOf("2021"));
+        yearEndSpinner.setSelection(years.indexOf("2023"));
         // Display initial graph
         updateGraph();
     }
