@@ -10,6 +10,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -32,9 +35,15 @@ public class ChatGPTActivity extends AppCompatActivity {
     private Button sendButton;
     private TextView chatGPTResponse;
 
-    private static final String token="SECRET";
+    private static final String token="Secret";
+
+    private static final String instruction="You are a specialist information retrieval bot designed to work with attached PDF documents. To the questions I ask you, get the answers only from the files I provided and also provide information on from which PDF filename the information is extracted. The filename from which the information is extracted is very important. The response should Have information regarding the query and at the end have a Citation section and give the filename in that place.Please, always strive to learn from the feedback given, adapting your approach to ensure that each summary better meets the expectations outlined. Your goal is not only to provide information but to evolve in your capacity to discern and communicate the essence of the PDF documents in the most effective manner possible. Make sure you take less than 9 seconds to get a response so prioritze the time limit too";
 
     private static final String assistant="Assistant";
+
+    private RecyclerView chatRecyclerView;
+    private ChatAdapter chatAdapter;
+    private List<Message> messageList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,13 +52,23 @@ public class ChatGPTActivity extends AppCompatActivity {
 
         userInput = findViewById(R.id.userInput);
         sendButton = findViewById(R.id.sendButton);
-        chatGPTResponse = findViewById(R.id.chatGPTResponse);
+        chatRecyclerView = findViewById(R.id.chatRecyclerView);
+
+        chatAdapter = new ChatAdapter(messageList);
+        chatRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        chatRecyclerView.setAdapter(chatAdapter);
+
         createThread();
+
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("ChatGPTActivity",userInput.getText().toString());
-                sendMessageToThread(userInput.getText().toString());
+                String messageContent = userInput.getText().toString();
+                if (!messageContent.isEmpty()) {
+                    Log.d("ChatGPTActivity", messageContent);
+                    sendMessageToThread(messageContent);
+                    userInput.setText(""); // Clear input after sending
+                }
             }
         });
     }
@@ -94,7 +113,7 @@ public class ChatGPTActivity extends AppCompatActivity {
         String threadId = sharedPref.getString("ThreadID", null);
 
         OkHttpClient client = new OkHttpClient();
-        String json = "{\"assistant_id\": \"" + assistant + "\", \"instructions\": \"Answer all the questions asked from the uploaded files\"}";
+        String json = "{\"assistant_id\": \"" + assistant + "\", \"instructions\": \""+instruction+"\"}";
         RequestBody body = RequestBody.create(json, MediaType.get("application/json; charset=utf-8"));
         Log.d("ChatGPTActivity","In Messages:"+json+"|"+threadId);
         Request request = new Request.Builder()
@@ -113,9 +132,9 @@ public class ChatGPTActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-
+                Log.d("ChatGPTActivity",""+response.body().string());
                 if (response.isSuccessful()) {
-                    Log.d("ChatGPTActivity",""+response.body().string());
+
                     new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -123,7 +142,7 @@ public class ChatGPTActivity extends AppCompatActivity {
                             fetchThreadMessages(threadId, token);
 
                         }
-                    }, 8000);
+                    }, 10000);
 
                 }
             }
@@ -209,7 +228,7 @@ public class ChatGPTActivity extends AppCompatActivity {
             }
         });
     }
-    private void  extractTextValues(String jsonResponse) {
+    private void extractTextValues(String jsonResponse) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -229,12 +248,30 @@ public class ChatGPTActivity extends AppCompatActivity {
                             textValues.add(value);
                         }
                     }
-                    chatGPTResponse.setText(textValues.get(0));
+                    processMessages(textValues);
+                    Log.d("ChatGPTActivity",""+textValues);
+                    chatAdapter.notifyDataSetChanged(); // Refresh RecyclerView
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
         });
+
+    }
+    private void processMessages(List<String> messages) {
+        List<Message> newMessageList = new ArrayList<>();
+        for (int i = messages.size()-1; i > 0; i -= 2) {
+            // User input
+            if (i > 0) {
+                newMessageList.add(new Message(messages.get(i), true)); // true indicates user message
+            }
+            // ChatGPT response
+            if (i - 1 >= 0) {
+                newMessageList.add(new Message(messages.get(i - 1), false)); // false indicates ChatGPT message
+            }
+        }
+
+        Log.d("ChatGPTActivity",""+newMessageList);
+        chatAdapter.setMessages(newMessageList);
     }
 }

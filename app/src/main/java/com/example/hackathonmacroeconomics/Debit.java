@@ -3,6 +3,7 @@ package com.example.hackathonmacroeconomics;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -183,7 +184,9 @@ public class Debit extends AppCompatActivity implements AdapterView.OnItemSelect
         }
         double minValue = Double.MAX_VALUE;
         double maxValue = Double.MIN_VALUE;
-
+        int indiaColor = Color.RED;
+        int chinaColor = Color.GREEN;
+        int usaColor = Color.BLUE;
         for (String country : selectedCountries) {
             // Create graph series
             LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
@@ -213,7 +216,14 @@ public class Debit extends AppCompatActivity implements AdapterView.OnItemSelect
                 }
                 series.appendData(new DataPoint(year, data), true, maxDataPoints);
             }
-            // Set graph properties for each country
+            if (country.equals(Constants.INDIA)) {
+                series.setColor(indiaColor);
+            } else if (country.equals(Constants.CHINA)) {
+                series.setColor(chinaColor);
+            } else if (country.equals(Constants.USA)) {
+                series.setColor(usaColor);
+            }
+
             series.setTitle(country);
             graphView.addSeries(series);
         }
