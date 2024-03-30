@@ -2,15 +2,18 @@ package com.example.hackathonmacroeconomics;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.LegendRenderer;
@@ -58,7 +61,10 @@ public class MacroEconomy extends AppCompatActivity implements AdapterView.OnIte
         indiaCheckBox = findViewById(R.id.india_checkbox);
         chinaCheckBox = findViewById(R.id.china_checkbox);
         usaCheckBox = findViewById(R.id.usa_checkbox);
-
+        Button addAnnotationButton = findViewById(R.id.add_annotation_button);
+        SharedPreferences prefs = getSharedPreferences("AppAnnotations", MODE_PRIVATE);
+        String savedAnnotation = prefs.getString("annotation", ""); // Default value is an empty string
+        annotationEditText.setText(savedAnnotation);
 
         try {
             InputStream inputStream = getResources().openRawResource(R.raw.gdp_growth);
@@ -150,23 +156,47 @@ public class MacroEconomy extends AppCompatActivity implements AdapterView.OnIte
 
         // Display initial graph
         updateGraph();
+        AdapterView.OnItemSelectedListener checkboxListener = new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                updateGraph(); // Update graph when any checkbox state changes
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Not used here
+            }
+        };
+        indiaCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> updateGraph());
+        chinaCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> updateGraph());
+        usaCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> updateGraph());
+        addAnnotationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String annotation = annotationEditText.getText().toString();
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString("annotation", annotation);
+                editor.apply(); // Save the annotation
+
+                // Optionally, show a confirmation message
+                Toast.makeText(MacroEconomy.this, "Annotation saved", Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        // Update graph when spinner selections change
+
         updateGraph();
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-        // Do nothing
+
     }
 
-    public void onAddAnnotationButtonClick(View view) {
-        // Handle annotation button click
-    }
+
 
     private void updateGraph() {
         graphView.removeAllSeries();
