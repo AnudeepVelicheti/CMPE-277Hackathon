@@ -20,7 +20,6 @@
 
 # Agriculture
 <img width="315" alt="Screen Shot 2023-03-28 at 4 23 04 PM" src="https://github.com/AnudeepVelicheti/CMPE-277Hackathon/blob/main/images/pic10.jpg">
-<img width="315" alt="Screen Shot 2023-03-28 at 4 23 16 PM" src="https://user-images.githubusercontent.com/97280691/228389988-8c76ed79-5144-4ba7-975b-26b1c72ef5f1.png">
 
 # ChatGPT:
 <img width="315" alt="Screen Shot 2023-03-28 at 4 24 19 PM" src="https://github.com/AnudeepVelicheti/CMPE-277Hackathon/blob/main/images/pic7.jpg">
